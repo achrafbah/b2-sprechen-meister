@@ -554,35 +554,99 @@
 
     <!-- ================= VIEW 9: REDEMITTEL-KATALOG ================= -->
     <section id="view-redemittel" class="view-panel hidden">
-      <div class="mb-8 text-center max-w-2xl mx-auto">
+      <div class="mb-8 text-center max-w-3xl mx-auto">
         <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-          كتالوج العبارات الامتحانية الشامل
+          بنك العبارات الامتحانية الشامل والمصنف B2
         </span>
-        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Redemittel-Katalog B2</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">جميع العبارات الأساسية لـ Teil 1، Teil 2 و Teil 3 مصنفة بدقة مع الترجمة والصوت</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Redemittel-Katalog B2 (Exklusiv)</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">جميع العبارات المفتاحية مصنفة حسب أجزاء الامتحان ووظيفتها التواصلية مع الترجمة الصوتية والنصائح</p>
       </div>
 
-      <div class="flex justify-center gap-2 mb-6 text-xs font-bold">
-        <button onclick="switchRedemittelTab('all')" class="rm-tab px-4 py-2 rounded-xl bg-emerald-600 text-white" data-target="all">Alle</button>
-        <button onclick="switchRedemittelTab('t1')" class="rm-tab px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border text-slate-700 dark:text-slate-300" data-target="t1">Teil 1</button>
-        <button onclick="switchRedemittelTab('t2')" class="rm-tab px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border text-slate-700 dark:text-slate-300" data-target="t2">Teil 2</button>
-        <button onclick="switchRedemittelTab('t3')" class="rm-tab px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border text-slate-700 dark:text-slate-300" data-target="t3">Teil 3</button>
+      <!-- Controls: Search & Category Filter -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 mb-8 shadow-sm max-w-4xl mx-auto">
+        <!-- Live Search -->
+        <div class="relative mb-5">
+          <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="rmSearchInput" oninput="filterRedemittel()" placeholder="ابحث في العبارات (بالألمانية أو العربية، مثلاً: Meinung, Vorschlag, اعتراض...)" class="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <!-- Main Category Filter Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2" id="rmCategoryButtons"></div>
+
+        <!-- Subcategory Pills (Dynamic) -->
+        <div id="rmSubcatContainer" class="flex flex-wrap items-center justify-center gap-1.5 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800"></div>
       </div>
 
-      <div id="redemittelList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <!-- Counter & Stats -->
+      <div class="flex items-center justify-between max-w-4xl mx-auto mb-4 px-2 text-xs text-slate-500">
+        <span id="rmResultsCount">عرض جميع العبارات</span>
+        <span class="text-emerald-600 font-bold hidden sm:inline">💡 انقر على زر الصوت للاستماع للنطق السليم، أو زر النسخ للحفظ</span>
+      </div>
+
+      <!-- Redemittel Cards Grid -->
+      <div id="redemittelList" class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto"></div>
     </section>
 
     <!-- ================= VIEW 10: NVV TRAINER ================= -->
     <section id="view-nvv" class="view-panel hidden">
-      <div class="mb-8 text-center max-w-2xl mx-auto">
+      <div class="mb-8 text-center max-w-3xl mx-auto">
         <span class="text-xs font-bold px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
-          مُدرب المتلازمات اللفظية B2
+          خزانة المتلازمات اللفظية المصنفة B2/C1
         </span>
         <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Nomen-Verb-Verbindungen (NVV)</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">بطاقات تفاعلية ثلاثية الأبعاد لحفظ أهم المتلازمات</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">أكثر من 55 متلازمة لفظية مقسمة ومبوبة حسب الاستخدام العملي مع أمثلة امتحانية وترجمة دقيقة</p>
       </div>
 
-      <div id="nvvGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      <!-- Controls: Search, Category Filter, and View Mode Toggle -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 mb-8 shadow-sm max-w-5xl mx-auto">
+        <div class="flex flex-col sm:flex-row gap-3 mb-5">
+          <!-- Search -->
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="nvvSearchInput" oninput="filterNVV()" placeholder="ابحث عن متلازمة (مثال: Entscheidung, Rolle, قرار, حل...)" class="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+          </div>
+          <!-- View Toggle -->
+          <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl shrink-0 self-start sm:self-auto">
+            <button id="nvvBtnModeCard" onclick="setNvvViewMode('cards')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-purple-600 shadow-sm flex items-center gap-1.5 transition">
+              <i data-lucide="layers" class="w-4 h-4"></i> بطاقات تفاعلية
+            </button>
+            <button id="nvvBtnModeTable" onclick="setNvvViewMode('table')" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-purple-600 flex items-center gap-1.5 transition">
+              <i data-lucide="table" class="w-4 h-4"></i> جدول للمراجعة
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Pills with counts -->
+        <div class="flex flex-wrap items-center justify-center gap-2" id="nvvCategoryButtons"></div>
+      </div>
+
+      <!-- Results info -->
+      <div class="flex items-center justify-between max-w-5xl mx-auto mb-4 px-2 text-xs text-slate-500">
+        <span id="nvvResultsCount">عرض جميع المتلازمات</span>
+        <span class="text-purple-600 font-bold hidden sm:inline">💡 استخدام المتلازمات في الحديث يرفع تلقائياً تقييم Ausdruck & Grammatik إلى B2/C1</span>
+      </div>
+
+      <!-- Container: Cards View -->
+      <div id="nvvCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto"></div>
+
+      <!-- Container: Table View -->
+      <div id="nvvTableContainer" class="hidden max-w-6xl mx-auto overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-800">
+              <tr>
+                <th class="p-3.5">التصنيف</th>
+                <th class="p-3.5">Nomen-Verb-Verbindung</th>
+                <th class="p-3.5">Einfaches Verb</th>
+                <th class="p-3.5 ar text-right">المعنى بالعربية</th>
+                <th class="p-3.5">Mustersatz B2 (مثال امتحاني)</th>
+                <th class="p-3.5 text-center">أدوات</th>
+              </tr>
+            </thead>
+            <tbody id="nvvTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
   </main>
@@ -631,32 +695,11 @@
       { id: 7, title: "Ihre berufliche Erfahrung oder Ausbildung", titleAr: "تجربتك المهنية أو مسارك الدراسي", desc: "Präsentieren Sie Ihren Werdegang (Schule/Uni, Praktika, Tätigkeiten, Zukunftspläne)." }
     ];
 
-    const REDEMITTEL_DATA = [
-      { teil: "t1", title: "Einleitung der Präsentation", titleAr: "مقدمة العرض", de: "Ich möchte heute über das Thema ... sprechen. Mein Vortrag gliedert sich in folgende Teile...", ar: "أود اليوم التحدث عن موضوع... وينقسم عرضي إلى الأجزاء التالية..." },
-      { teil: "t1", title: "Überleitung zwischen Punkten", titleAr: "الانتقال بين عناصر العرض", de: "Nachdem ich über ... gesprochen habe, möchte ich nun zu ... übergehen.", ar: "بعد أن تحدثت عن...، أود الآن الانتقال إلى النقطة التالية..." },
-      { teil: "t1", title: "Schlussfolgerung & Dank", titleAr: "خاتمة العرض والشكر", de: "Zusammenfassend lässt sich sagen, dass... Ich danke Ihnen für Ihre Aufmerksamkeit und freue mich auf Ihre Fragen.", ar: "وخلاصة القول يمكن تأكيد أن... أشكركم على حسن الاستماع وأرحب بأسئلتكم." },
-      { teil: "t2", title: "Textzusammenfassung einleiten", titleAr: "بدء تلخيص النص", de: "In dem Text aus der Zeitschrift geht es im Wesentlichen um die Frage, ob...", ar: "يتناول النص المأخوذ من المجلة في جوهره مسألة ما إذا كان..." },
-      { teil: "t2", title: "Meinung begründen", titleAr: "إبداء الرأي والتعليل", de: "Meiner Auffassung nach ist dies von großer Bedeutung, weil...", ar: "من وجهة نظري يحظى هذا الأمر بأهمية بالغة، لأن..." },
-      { teil: "t2", title: "Zustimmen", titleAr: "الموافقة والتأييد", de: "Da haben Sie vollkommen recht. Ich sehe das ganz genauso, denn...", ar: "أنت محق تماماً في ذلك، وأنا أرى الأمر بنفس الطريقة بالضبط لأن..." },
-      { teil: "t2", title: "Höflich widersprechen", titleAr: "الاعتراض بأسلوب لبق", de: "Ich verstehe Ihren Standpunkt, allerdings sollte man bedenken, dass...", ar: "أتفهم وجهة نظرك، غير أنه ينبغي للمرء أن يأخذ بعين الاعتبار أن..." },
-      { teil: "t2", title: "Auf Erfahrungen verweisen", titleAr: "الاستشهاد بتجربة شخصية", de: "Aus meiner eigenen Erfahrung in meinem Heimatland kann ich bestätigen, dass...", ar: "من واقع تجربتي الشخصية في وطني يمكنني أن أؤكد أن..." },
-      { teil: "t3", title: "Vorschlag machen", titleAr: "تقديم اقتراح", de: "Ich schlage vor, dass wir uns zunächst um ... kümmern. Was hältst du davon?", ar: "أقترح أن نهتم أولاً بـ... ما رأيك في ذلك؟" },
-      { teil: "t3", title: "Einwand äußern", titleAr: "طرح مانع أو تحفظ", de: "Das ist zwar eine gute Idee, aber hast du bedacht, wie teuer das werden könnte?", ar: "إنها فكرة جيدة بالفعل، لكن هل فكرت في مدى التكلفة المالية؟" },
-      { teil: "t3", title: "Kompromiss finden", titleAr: "التوصل إلى تسوية وحل وسط", de: "Wie wäre es mit einem Kompromiss: Wir könnten doch...", ar: "ما رأيك في حل وسط: يمكننا مثلاً أن..." },
-      { teil: "t3", title: "Einigung festhalten", titleAr: "تثبيت الاتفاق والمهام", de: "Abgemacht! Dann übernehme ich ... und du kümmerst dich um ...", ar: "اتفقنا! سأتولى أنا... وأنت تتكفل بـ..." }
-    ];
+    const REDEMITTEL_CATEGORIES = [{"id": "all", "nameDe": "Alle Redemittel", "nameAr": "جميع العبارات"}, {"id": "t1", "nameDe": "Teil 1: Präsentation", "nameAr": "الجزء 1: تقديم العرض"}, {"id": "t2", "nameDe": "Teil 2: Diskussion", "nameAr": "الجزء 2: المناقشة وإبداء الرأي"}, {"id": "t3", "nameDe": "Teil 3: Problemlösung & Planung", "nameAr": "الجزء 3: التخطيط وحل المشكلات"}, {"id": "mgmt", "nameDe": "Gesprächsführung & Notfall", "nameAr": "إدارة الحوار واستراتيجيات الطوارئ"}];
+    const REDEMITTEL_DATA = [{"id": "rm-t1-01", "category": "t1", "catNameDe": "Teil 1: Präsentation", "catNameAr": "الجزء 1: العرض", "subcat": "Einleitung & Thema", "subcatAr": "المقدمة وتحديد الموضوع", "title": "Das Thema des Vortrags ankündigen", "titleAr": "الإعلان عن موضوع العرض التقديمي", "phrases": ["Ich möchte heute über das Thema ... sprechen.", "In meiner heutigen Präsentation geht es um ...", "Das Thema meines heutigen Vortrags lautet: ..."], "ar": "أود اليوم أن أتحدث عن موضوع... / موضوع عرضي اليوم هو...", "tip": "ابدأ مباشرة بنبرة واثقة وواضحة دون تردد."}, {"id": "rm-t1-02", "category": "t1", "catNameDe": "Teil 1: Präsentation", "catNameAr": "الجزء 1: العرض", "subcat": "Gliederung", "subcatAr": "خطة وهيكل العرض", "title": "Die Gliederung vorstellen", "titleAr": "عرض خطة ومحاور الحديث", "phrases": ["Mein Vortrag gliedert sich in folgende Teile: Zuerst..., danach..., und zum Schluss...", "Ich habe meine Präsentation in drei Hauptpunkte unterteilt: Erstens..., zweitens..., schließlich...", "Zunächst werde ich kurz auf ... eingehen, anschließend möchte ich ... darstellen und abschließend mein Fazit ziehen."], "ar": "ينقسم عرضي إلى الأجزاء التالية: أولاً...، ثم...، وأخيراً...", "tip": "ذكر الخطة يعطي انطباعاً بالتنظيم العالي ويرفع نقطة Struktur."}, {"id": "rm-t1-03", "category": "t1", "catNameDe": "Teil 1: Präsentation", "catNameAr": "الجزء 1: العرض", "subcat": "Persönliche Erfahrung", "subcatAr": "سرد التجربة الشخصية", "title": "Eigene Erfahrungen schildern", "titleAr": "سرد التجارب والذكريات الشخصية", "phrases": ["Als ich vor einigen Jahren ... erlebt habe, ist mir besonders aufgefallen, dass...", "Ich persönlich habe die Erfahrung gemacht, dass...", "Aus meiner persönlichen Erfahrung kann ich berichten, dass..."], "ar": "من واقع تجربتي الشخصية يمكنني أن أؤكد أن...", "tip": "استعمل أزمنة Perfekt أو Präteritum بدقة عند سرد الأحداث الماضية."}, {"id": "rm-t1-04", "category": "t1", "catNameDe": "Teil 1: Präsentation", "catNameAr": "الجزء 1: العرض", "subcat": "Vor- und Nachteile", "subcatAr": "الإيجابيات والسلبيات", "title": "Vor- und Nachteile abwägen", "titleAr": "مقارنة المحاسن والمساوئ بموضوعية", "phrases": ["Ein wesentlicher Vorteil besteht darin, dass... Auf der anderen Seite sollte man bedenken, dass...", "Einerseits bietet ... große Chancen, andererseits birgt es auch gewisse Risiken.", "Zwar sprechen viele Gründe für ..., allerdings darf man die Kehrseite nicht übersehen."], "ar": "من جهة أولى توجد مزايا كبرى، لكن من جهة ثانية لا بد من مراعاة المخاطر.", "tip": "استعمل الثنائيات: Einerseits / Andererseits, Zwar / aber."}, {"id": "rm-t1-05", "category": "t1", "catNameDe": "Teil 1: Präsentation", "catNameAr": "الجزء 1: العرض", "subcat": "Fazit & Empfehlung", "subcatAr": "الخاتمة والتوصية", "title": "Abschluss, Empfehlung und Dank", "titleAr": "الخاتمة وتقديم النصيحة والشكر", "phrases": ["Zusammenfassend lässt sich sagen, dass... Ich kann jedem nur wärmstens empfehlen, ...", "Abschließend möchte ich betonen, dass... Aus diesem Grund würde ich jedem raten, ...", "Damit bin ich am Ende meines Vortrags angelangt. Ich danke Ihnen herzlich für Ihre Aufmerksamkeit und freue mich auf Ihre Fragen."], "ar": "وخلاصة القول... أشكركم جزيل الشكر على حسن الاستماع وأسعد بالإجابة على أسئلتكم.", "tip": "الجملة الختامية والشكر يمنحان نهاية احترافية ومريحة."}, {"id": "rm-t1-06", "category": "t1", "catNameDe": "Teil 1: Präsentation", "catNameAr": "الجزء 1: العرض", "subcat": "Fragen beantworten", "subcatAr": "الرد على الأسئلة", "title": "Auf Nachfragen des Prüfers/Partners reagieren", "titleAr": "التفاعل والرد على أسئلة الممتحن أو الشريك", "phrases": ["Vielen Dank für diese interessante Frage. Meiner Ansicht nach...", "Das ist ein wichtiger Aspekt. Ich würde dazu sagen, dass...", "Um auf Ihre Frage zurückzukommen: Es verhält sich so, dass..."], "ar": "شكراً على هذا السؤال القيم. من وجهة نظري...", "tip": "اشكر السائل أولاً لكسب ثوانٍ معدودة للتفكير وصياغة الفكرة."}, {"id": "rm-t2-01", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Textzusammenfassung", "subcatAr": "تلخيص النص المكتوب", "title": "Den Text einleiten und Kernideen wiedergeben", "titleAr": "الافتتاح وتلخيص الأفكار الجوهرية للنص", "phrases": ["In dem vorliegenden Artikel geht es im Wesentlichen um die Frage, ob...", "Der Text befasst sich mit der aktuellen Problematik von...", "Laut dem Text wird hervorgehoben / betont, dass...", "Der Autor vertritt den Standpunkt, dass..."], "ar": "يتناول المقال الماثل مسألة ما إذا كان... / يشير الكاتب إلى أن...", "tip": "لا تقرأ من الورقة! لخص الفكرة العامة في جملتين أو ثلاث فقط بأسلوبك."}, {"id": "rm-t2-02", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Meinung äußern", "subcatAr": "إبداء الرأي", "title": "Eigene Meinung fundiert ausdrücken", "titleAr": "التعبير عن الرأي الشخصي بقوة وبلاغة", "phrases": ["Meiner Auffassung / Ansicht nach ist dieses Thema von enormer Bedeutung, weil...", "Ich stehe auf dem Standpunkt, dass...", "Ich bin der festen Überzeugung, dass...", "Was mich betrifft, so halte ich es für unerlässlich, dass..."], "ar": "من وجهة نظري أرى أن... / أنا على قناعة راسخة بأن...", "tip": "نوع بين: Meiner Ansicht nach, Meines Erachtens, Ich vertrete die Meinung, dass."}, {"id": "rm-t2-03", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Argumentieren & Begründen", "subcatAr": "التعليل وتقديم الحجج", "title": "Argumente untermauern und Kausalität herstellen", "titleAr": "تدعيم الحجج بروابط سببية محكمة", "phrases": ["Ein wesentlicher Grund dafür liegt darin, dass...", "Dafür / Dagegen spricht vor allem die Tatsache, dass...", "Man darf nicht außer Acht lassen, dass...", "Dies führt unweigerlich dazu, dass..."], "ar": "يعود السبب الرئيسي في ذلك إلى أن... / لا ينبغي إغفال حقيقة أن...", "tip": "استعمل Konnektoren مثل: da, denn, folglich, infolgedessen."}, {"id": "rm-t2-04", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Zustimmung", "subcatAr": "الموافقة والتأييد", "title": "Volle Zustimmung äußern", "titleAr": "التأييد والموافقة الكاملة مع الشريك", "phrases": ["Da kann ich dir / Ihnen nur voll und ganz zustimmen.", "Das sehe ich ganz genauso. Genau das ist der entscheidende Punkt.", "Ich teile Ihre Auffassung uneingeschränkt, denn...", "Du hast völlig recht, wenn du sagst, dass..."], "ar": "أتفق معك تماماً في هذه النقطة، وهذا عين الصواب.", "tip": "لا تكتف بـ 'Ja, genau'! أضف دائماً تعليلاً يؤكد سبب موافقتك."}, {"id": "rm-t2-05", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Teilweise Zustimmung", "subcatAr": "الموافقة الجزئية والتحفظ", "title": "Teilweise zustimmen und Einschränkungen machen", "titleAr": "الموافقة المشروطة مع إبداء التحفظ", "phrases": ["Bis zu einem gewissen Grad stimme ich dir zu, allerdings sollte man bedenken, dass...", "Das mag zwar zutreffen, trotzdem darf man nicht vergessen, dass...", "Grundsätzlich hast du recht, aber in der Praxis sieht das oft ganz anders aus.", "Sicherlich ist da etwas Wahres dran, dennoch..."], "ar": "أتفق معك إلى حد معين، غير أنه يتعين مراعاة أن...", "tip": "هذه العبارات هي سر الحصول على علامة B2/C1 لأنها تعكس نضجاً فكرياً ولغوياً."}, {"id": "rm-t2-06", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Widerspruch", "subcatAr": "الاعتراض اللبق", "title": "Höflich widersprechen und Zweifel anmelden", "titleAr": "الاعتراض بأسلوب مهذب ولبق مع الشريك", "phrases": ["Da bin ich leider anderer Meinung / Ansicht.", "Ich bezweifle, dass dieser Ansatz auf Dauer funktioniert, weil...", "Erlauben Sie mir, hier zu widersprechen: Aus meiner Sicht...", "Ganz so einfach ist die Sache meiner Meinung nach nicht, denn..."], "ar": "يؤسفني أنني أخالفك الرأي هنا، لأن الأمر ليس بتلك البساطة.", "tip": "تجنب الحدة أو مقاطعة الشريك بعنف؛ ابدأ بـ 'Ich verstehe deinen Punkt, aber...'."}, {"id": "rm-t2-07", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Partner einbinden", "subcatAr": "إشراك الشريك في الحوار", "title": "Den Partner aktiv in das Gespräch einbeziehen", "titleAr": "تمرير الكلمة للشريك وطلب وجهة نظره", "phrases": ["Wie stehst du eigentlich zu diesem Thema?", "Welche Erfahrungen hast du persönlich damit gemacht?", "Siehst du das genauso oder hast du da Bedenken?", "Was würdest du in einer solchen Situation vorschlagen?"], "ar": "ما هو موقفك الشخصي حيال هذا الموضوع؟ وما هي تجربتك فيه؟", "tip": "معيار Gesprächsführung يتطلب إشراك الشريك كل دقيقة ونصف على الأكثر."}, {"id": "rm-t2-08", "category": "t2", "catNameDe": "Teil 2: Diskussion", "catNameAr": "الجزء 2: المناقشة", "subcat": "Heimatland-Vergleich", "subcatAr": "المقارنة مع الوطن الأم", "title": "Vergleich Deutschland vs. Heimatland ziehen", "titleAr": "عقد مقارنة بين ألمانيا وبلدك الأصلي", "phrases": ["Im Vergleich zu Deutschland ist die Situation in meinem Heimatland (Marokko) völlig anders, da...", "Während in Deutschland viel Wert auf ... gelegt wird, verhält es sich in Marokko so, dass...", "Aus meiner Heimat kenne ich das so, dass... Allerdings beobachte ich hier in Deutschland, dass..."], "ar": "بالمقارنة مع ألمانيا، فإن الوضع في وطني يختلف تماماً حيث...", "tip": "المقارنة مع Heimatland مطلوبة رسمياً في معايير امتحان telc B2."}, {"id": "rm-t3-01", "category": "t3", "catNameDe": "Teil 3: Problemlösung & Planung", "catNameAr": "الجزء 3: التخطيط والحل", "subcat": "Einstieg & Ziel", "subcatAr": "الافتتاح وتحديد المهمة", "title": "Das Gespräch eröffnen und das Ziel festlegen", "titleAr": "بدء النقاش وتحديد مهمة التخطيط المشتركة", "phrases": ["Wir haben ja die Aufgabe erhalten, gemeinsam ... zu planen / organisieren.", "Lass uns am besten strukturiert vorgehen. Womit wollen wir anfangen?", "Um unser Ziel zu erreichen, sollten wir zuerst die wichtigsten Punkte klären.", "Ich schlage vor, dass wir uns zunächst einen Überblick über die offenen Punkte verschaffen."], "ar": "كُلّفنا بمهمة التخطيط والتنظيم معاً... دعنا نبدأ بخطوات منظمة.", "tip": "المبادرة بافتتاح الجزء الثالث تمنحك قيادة المحادثة وتبرز طلاقتك."}, {"id": "rm-t3-02", "category": "t3", "catNameDe": "Teil 3: Problemlösung & Planung", "catNameAr": "الجزء 3: التخطيط والحل", "subcat": "Vorschläge machen", "subcatAr": "تقديم المقترحات", "title": "Konkrete und konstruktive Vorschläge machen", "titleAr": "اقتراح أفكار عملية محددة وبناءة", "phrases": ["Ich würde vorschlagen, dass wir uns um ... kümmern. Was hältst du davon?", "Wie wäre es, wenn wir ... organisieren?", "Wir könnten doch eventuell ... in Betracht ziehen.", "Eine hervorragende Möglichkeit wäre es, wenn wir..."], "ar": "أقترح أن نهتم بـ... ما رأيك في ذلك؟ / ما رأيك لو نظمنا...؟", "tip": "استخدم صيغة Konjunktiv II (würde, wäre, könnte) للدبلوماسية."}, {"id": "rm-t3-03", "category": "t3", "catNameDe": "Teil 3: Problemlösung & Planung", "catNameAr": "الجزء 3: التخطيط والحل", "subcat": "Einwände & Bedenken", "subcatAr": "طرح الموانع والعقبات", "title": "Einwände und finanzielle / zeitliche Bedenken äußern", "titleAr": "إبداء التحفظات بخصوص الوقت أو الميزانية المالية", "phrases": ["Das ist an sich eine wunderbare Idee, aber hast du bedacht, wie teuer das werden könnte?", "Ich befürchte, dass uns dafür die nötige Zeit fehlt.", "Meinst du wirklich, dass das machbar ist? Es könnte nämlich folgendes Problem auftreten: ...", "Da sehe ich eine Schwierigkeit, denn nicht jeder wird damit einverstanden sein."], "ar": "إنها فكرة رائعة بحد ذاتها، لكن هل حسبت حساب التكلفة المادية والوقت؟", "tip": "طرح عائق واقعي (الميزانية أو الوقت) ضروري لإظهار مهارة حل المشكلات."}, {"id": "rm-t3-04", "category": "t3", "catNameDe": "Teil 3: Problemlösung & Planung", "catNameAr": "الجزء 3: التخطيط والحل", "subcat": "Kompromisse aushandeln", "subcatAr": "التفاوض والحلول الوسط", "title": "Einen Kompromiss finden und sich einigen", "titleAr": "التوصل إلى تسوية ترضي الطرفين والحل الوسط", "phrases": ["Wie wäre es mit einem Kompromiss: Wir machen ... und dafür verzichten wir auf ...?", "Könnten wir uns darauf einigen, dass wir stattdessen ... ausprobieren?", "Lass uns einen Mittelweg wählen: Du übernimmst ... und ich kümmere mich um ...", "Das ist ein fairer Vorschlag! Damit kann ich mich voll und ganz anfreunden."], "ar": "ما رأيك في حل وسط: نتفق على أن... وبالمقابل نتنازل عن...؟", "tip": "الامتحان لا يختبر من يفوز برأيه، بل يختبر القدرة على التوصل لاتفاق!"}, {"id": "rm-t3-05", "category": "t3", "catNameDe": "Teil 3: Problemlösung & Planung", "catNameAr": "الجزء 3: التخطيط والحل", "subcat": "Aufgaben verteilen", "subcatAr": "توزيع المهام والمسؤوليات", "title": "Zuständigkeiten und Termine festlegen", "titleAr": "توزيع الأدوار وتحديد المواعيد النهائية", "phrases": ["Wer übernimmt welche Aufgabe? Ich könnte mich gerne um ... kümmern.", "Wärst du bereit, die Recherche bezüglich ... zu übernehmen?", "Bis wann sollten wir diese Schritte erledigt haben?", "Ich setze mich bis Freitag mit ... in Verbindung und gebe dir dann Bescheid."], "ar": "من سيتولى أية مهمة؟ أنا مستعد للتكفل بـ... هل يمكنك الاهتمام بـ...؟", "tip": "حدد دائماً موعداً دقيقاً (Bis wann?) ومسؤولية واضحة لكل شريك."}, {"id": "rm-t3-06", "category": "t3", "catNameDe": "Teil 3: Problemlösung & Planung", "catNameAr": "الجزء 3: التخطيط والحل", "subcat": "Abschluss & Vereinbarung", "subcatAr": "حسم الاتفاق والتلخيص", "title": "Das Ergebnis zusammenfassen und besiegeln", "titleAr": "تلخيص ما تم الاتفاق عليه وإنهاء الجزء الثالث", "phrases": ["Prima! Halten wir also kurz fest: Wir haben uns darauf geeinigt, dass...", "Perfekt, damit steht unser Plan fest. Wir haben an alles Wichtige gedacht.", "Abgemacht! Ich freue mich auf unsere Zusammenarbeit.", "Dann fassen wir zusammen: Punkt 1 ist..., Punkt 2 ist..., und wir treffen uns nächste Woche wieder."], "ar": "ممتاز! إذن دعنا نلخص سريعاً ما اتفقنا عليه... خطتنا جاهزة ومتكاملة.", "tip": "التلخيص الختامي ينهي الامتحان بدقة ويمنح إشارة واضحة للممتحنين باختتام المهمة."}, {"id": "rm-m-01", "category": "mgmt", "catNameDe": "Gesprächsführung & Notfall", "catNameAr": "إدارة الحوار والطوارئ", "subcat": "Zeit gewinnen", "subcatAr": "كسب الوقت والتفكير", "title": "Zeit zum Nachdenken gewinnen (ohne peinliches Schweigen)", "titleAr": "كسب ثوانٍ ثمينة للتفكير وتفادي الصمت المحرج", "phrases": ["Das ist in der Tat eine sehr interessante und komplexe Frage...", "Lassen Sie mich kurz nachdenken, wie ich das am besten formuliere...", "Nun, darüber habe ich mir bisher noch gar keine Gedanken gemacht, aber spontan würde ich sagen...", "Das ist ein bemerkenswerter Punkt, den man von zwei Seiten betrachten muss."], "ar": "هذا في الحقيقة سؤال وجيه ومعقد... دعني أفكر لبرهة في الصياغة الأنسب...", "tip": "إياك والصمت التام! املأ الفراغ بهذه الجمل الاحترافية ليكتسب دماغك وقتاً."}, {"id": "rm-m-02", "category": "mgmt", "catNameDe": "Gesprächsführung & Notfall", "catNameAr": "إدارة الحوار والطوارئ", "subcat": "Unterbrechen", "subcatAr": "المقاطعة المهذبة", "title": "Höflich und diplomatisch das Wort ergreifen", "titleAr": "أخذ الكلمة والمقاطعة الدبلوماسية دون إحراج", "phrases": ["Entschuldige, wenn ich dich hier kurz unterbreche, aber...", "Darf ich an dieser Stelle kurz einhaken?", "Genau an diesen Gedanken möchte ich gerne anknüpfen: ...", "Wenn ich kurz etwas dazu ergänzen darf: ..."], "ar": "عذراً لمقاطعتك هنا، لكن هل تأذن لي بإضافة نقطة هامة...؟", "tip": "إذا كان الشريك يتحدث طويلاً دون توقف، استعمل هذه العبارة فوراً لتستعيد وقتك."}, {"id": "rm-m-03", "category": "mgmt", "catNameDe": "Gesprächsführung & Notfall", "catNameAr": "إدارة الحوار والطوارئ", "subcat": "Missverständnisse klären", "subcatAr": "توضيح سوء الفهم", "title": "Missverständnisse aufklären und nachfragen", "titleAr": "إعادة الصياغة والاستيضاح وتجاوز اللبس", "phrases": ["Habe ich dich richtig verstanden, dass du meinst, ...?", "Was ich damit eigentlich sagen wollte, ist folgendes: ...", "Könntest du diesen Gedanken bitte noch etwas näher erläutern?", "Vielleicht habe ich mich da etwas unglücklich ausgedrückt. Ich meinte nämlich..."], "ar": "هل فهمتك بشكل سليم أنك تقصد...؟ / ما أردت توضيحه في الواقع هو...", "tip": "استدراك الخطأ أو الاستفسار عن مقصد الشريك يحسب لك ذكاءً لغوياً وتواصلياً."}, {"id": "rm-m-04", "category": "mgmt", "catNameDe": "Gesprächsführung & Notfall", "catNameAr": "إدارة الحوار والطوارئ", "subcat": "B2/C1 Konnektoren", "subcatAr": "روابط الجمل المتقدمة", "title": "Edle Satzverbindungen für Höchstpunktzahl", "titleAr": "روابط لغوية متقدمة لرفع مستوى الفصاحة", "phrases": ["Nichtsdestotrotz sollte man vor Augen behalten, dass...", "Im Gegensatz dazu lässt sich feststellen, dass...", "Je mehr wir darüber nachdenken, desto deutlicher wird...", "Ganz abgesehen davon spielt auch der finanzielle Aspekt eine Rolle."], "ar": "رغم ذلك كله ينبغي ألا يغيب عن الأذهان أن... / بخلاف ذلك يتبين أن...", "tip": "استخدم 'Nichtsdestotrotz' و 'Je ... desto' لإبهار الممتحنين بتركيبك النحوي."}];
 
-    const NVV_DATA = [
-      { nvv: "zur Verfügung stehen", meanDe: "verfügbar sein / da sein", meanAr: "يكون متاحاً وتحت التصرف", ex: "Für Fragen stehe ich Ihnen gerne zur Verfügung." },
-      { nvv: "zur Verfügung stellen", meanDe: "bereitstellen", meanAr: "يضع شيئاً تحت تصرف شخص", ex: "Die Firma stellt einen Dienstwagen zur Verfügung." },
-      { nvv: "eine Entscheidung treffen", meanDe: "sich entscheiden", meanAr: "يتخذ قراراً حاسماً", ex: "Wir müssen heute eine endgültige Entscheidung treffen." },
-      { nvv: "in Betracht ziehen", meanDe: "überlegen / berücksichtigen", meanAr: "يأخذ بعين الاعتبار / يفكر فيه", ex: "Wir sollten auch alternative Lösungen in Betracht ziehen." },
-      { nvv: "in Frage kommen", meanDe: "möglich sein / erlaubt sein", meanAr: "يكون وارداً أو متاحاً كخيار", ex: "Ein Aufschub kommt für uns leider nicht in Frage." },
-      { nvv: "eine Rolle spielen", meanDe: "wichtig sein / Bedeutung haben", meanAr: "يلعب دوراً هاماً ومؤثراً", ex: "Die Finanzen spielen dabei eine entscheidende Rolle." },
-      { nvv: "Kritik üben an", meanDe: "kritisieren", meanAr: "يوجه نقداً لاذعاً إلى", ex: "Der Prüfer übte berechtigte Kritik an dem Entwurf." },
-      { nvv: "Abschied nehmen von", meanDe: "sich verabschieden", meanAr: "يودع شخصاً أو فكرة", ex: "Wir mussten gestern von unseren Freunden Abschied nehmen." },
-      { nvv: "in Anspruch nehmen", meanDe: "nutzen / beanspruchen", meanAr: "يستفيد من خدمة أو يستغرق وقتاً", ex: "Sie sollten professionelle Beratung in Anspruch nehmen." }
-    ];
+    const NVV_CATEGORIES = [{"id": "all", "nameDe": "Alle NVV", "nameAr": "جميع المتلازمات"}, {"id": "opinion", "nameDe": "Meinung & Diskussion", "nameAr": "الرأي والتقييم والنقاش"}, {"id": "action", "nameDe": "Entscheidung & Handeln", "nameAr": "القرار والتنفيذ والعمل"}, {"id": "problem", "nameDe": "Probleme & Lösungen", "nameAr": "المشكلات والنزاعات والحلول"}, {"id": "plan", "nameDe": "Planung & Kooperation (Teil 3)", "nameAr": "التخطيط والتعاون والاتفاق"}, {"id": "impact", "nameDe": "Bedeutung, Wirkung & Emotion", "nameAr": "الأهمية والتأثير والمشاعر"}, {"id": "info", "nameDe": "Wissen, Information & Erfahrung", "nameAr": "المعرفة والمعلومات والتجربة"}];
+    const NVV_DATA = [{"id": "nvv-01", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "eine Ansicht / Meinung vertreten", "simple": "der Meinung sein", "prep": "", "ar": "يتبنى رأياً / يعبر عن وجهة نظر", "ex": "Ich vertrete die Ansicht, dass Bildung für alle kostenlos sein muss.", "exAr": "أتبنى الرأي القائل بأن التعليم يجب أن يكون مجانياً للجميع."}, {"id": "nvv-02", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "einen Standpunkt einnehmen / vertreten", "simple": "eine Meinung haben", "prep": "zu + Dativ", "ar": "يتخذ موقفاً حيال قضية معينة", "ex": "Zu dieser kontroversen Streitfrage nehme ich einen klaren Standpunkt ein.", "exAr": "أتخذ موقفاً حاسماً وواضحاً تجاه هذه المسألة الخلافية."}, {"id": "nvv-03", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "zur Diskussion stehen / stellen", "simple": "diskutiert werden / ansprechen", "prep": "", "ar": "يكون مطروحاً للنقاش / يطرح مسألة للنقاش", "ex": "Heute steht das Thema Homeoffice und Work-Life-Balance zur Diskussion.", "exAr": "اليوم يطرح موضوع العمل من المنزل والتوازن الحياتي للنقاش."}, {"id": "nvv-04", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "zum Ausdruck bringen", "simple": "ausdrücken / äußern", "prep": "", "ar": "يعرب عن / يوضح شعوراً أو رأياً", "ex": "Ich möchte mein Bedauern über diese Entscheidung zum Ausdruck bringen.", "exAr": "أود أن أعرب عن عميق أسفي إزاء هذا القرار."}, {"id": "nvv-05", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "zur Sprache bringen", "simple": "ansprechen", "prep": "", "ar": "يثير موضوعاً أو يفتح ملفاً للنقاش", "ex": "Wir sollten dieses sensible Problem unbedingt beim nächsten Treffen zur Sprache bringen.", "exAr": "علينا بكل تأكيد أن نثير هذه المشكلة الحساسة في الاجتماع القادم."}, {"id": "nvv-06", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "in Frage stellen", "simple": "bezweifeln", "prep": "", "ar": "يشكك في أمر ما / يضعه موضع تساؤل", "ex": "Niemand möchte die fachliche Kompetenz des Dozenten in Frage stellen.", "exAr": "لا أحد يريد أن يشكك في الكفاءة المهنية للأستاذ المحاضر."}, {"id": "nvv-07", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "Stellung nehmen", "simple": "seine Meinung sagen", "prep": "zu + Dativ", "ar": "يبدي موقفه ورأيه الرسمي حيال أمر ما", "ex": "Darf ich Sie bitten, kurz zu diesem Vorwurf Stellung zu nehmen?", "exAr": "هل تأذن لي بأن أطلب منك إبداء موقفك باختصار حيال هذا الاتهام؟"}, {"id": "nvv-08", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "zur Überzeugung gelangen", "simple": "überzeugt werden", "prep": "", "ar": "يتوصل إلى قناعة تامة", "ex": "Nach langen Überlegungen bin ich zur festen Überzeugung gelangt, dass...", "exAr": "بعد تفكير مطول، توصلت إلى قناعة راسخة بأن..."}, {"id": "nvv-09", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "Zweifel hegen / äußern", "simple": "bezweifeln", "prep": "an + Dativ", "ar": "تساوره الشكوك / يعبر عن ارتياب", "ex": "Ich hege große Zweifel an der Machbarkeit dieses Projekts.", "exAr": "تساورني شكوك عميقة بخصوص إمكانية تنفيذ هذا المشروع."}, {"id": "nvv-10", "category": "opinion", "catNameDe": "Meinung & Diskussion", "catNameAr": "الرأي والنقاش", "nvv": "ins Gewicht fallen", "simple": "wichtig sein", "prep": "", "ar": "يكون له وزن حاسم وتأثير جوهري", "ex": "Die zusätzlichen Reisekosten fallen bei unserem Budget schwer ins Gewicht.", "exAr": "تكاليف السفر الإضافية لها وزن ثقيل ومؤثر في ميزانيتنا."}, {"id": "nvv-11", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "eine Entscheidung treffen", "simple": "sich entscheiden", "prep": "", "ar": "يتخذ قراراً حاسماً", "ex": "Wir müssen bis morgen eine verbindliche Entscheidung treffen.", "exAr": "يتعين علينا أن نتخذ قراراً ملزماً قبل حلول يوم غد."}, {"id": "nvv-12", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "einen Entschluss fassen", "simple": "beschließen", "prep": "", "ar": "يعقد العزم ويحسم أمره", "ex": "Er fasste den mutigen Entschluss, ein eigenes Start-up zu gründen.", "exAr": "عقد العزم بكل شجاعة على تأسيس شركته الناشئة الخاصة."}, {"id": "nvv-13", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "Maßnahmen ergreifen / treffen", "simple": "handeln / aktiv werden", "prep": "", "ar": "يتخذ تدابير وإجراءات ملموسة", "ex": "Gegen den Klimawandel müssen sofort wirksame Maßnahmen ergriffen werden.", "exAr": "يجب اتخاذ إجراءات فعالة وفورية لمكافحة التغير المناخي."}, {"id": "nvv-14", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "in die Tat umsetzen", "simple": "verwirklichen / realisieren", "prep": "", "ar": "ينزل الفكرة لأرض الواقع ويطبقها", "ex": "Gute Vorschläge nützen nichts, wenn man sie nicht in die Tat umsetzt.", "exAr": "لا جدوى من المقترحات الجيدة إن لم يتم تطبيقها على أرض الواقع."}, {"id": "nvv-15", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "die Initiative ergreifen", "simple": "aktiv werden", "prep": "", "ar": "يأخذ بزمام المبادرة", "ex": "Jemand muss die Initiative ergreifen und das Treffen organisieren.", "exAr": "ينبغي لأحدنا أن يأخذ بزمام المبادرة وينظم اللقاء."}, {"id": "nvv-16", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "zur Anwendung kommen / bringen", "simple": "angewendet werden / anwenden", "prep": "", "ar": "يدخل حيز التطبيق العملي", "ex": "Die neue Regelung kommt ab dem nächsten Monat zur Anwendung.", "exAr": "ستدخل اللائحة التنظيمية الجديدة حيز التطبيق مطلع الشهر المقبل."}, {"id": "nvv-17", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "in Angriff nehmen", "simple": "mit etwas beginnen", "prep": "", "ar": "يشرع في معالجة أمر ما بهمة وجدية", "ex": "Wir sollten dieses Vorhaben ohne Zögern in Angriff nehmen.", "exAr": "ينبغي لنا أن نشرع في تنفيذ هذا المخطط دون أي تردد."}, {"id": "nvv-18", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "unter Beweis stellen", "simple": "beweisen", "prep": "", "ar": "يثبت جدارته أو صحة فكرته عملياً", "ex": "In der Prüfung können Sie Ihre Deutschkenntnisse unter Beweis stellen.", "exAr": "في الامتحان يمكنك إثبات كفاءتك اللغوية في الألمانية عملياً."}, {"id": "nvv-19", "category": "action", "catNameDe": "Entscheidung & Handeln", "catNameAr": "القرار والتنفيذ", "nvv": "sich Mühe geben", "simple": "sich anstrengen", "prep": "", "ar": "يبذل جهداً وسعياً صادقاً", "ex": "Ich gebe mir große Mühe, fließend und fehlerfrei zu sprechen.", "exAr": "أبذل جهداً كبيراً للتحدث بطلاقة ودون أخطاء."}, {"id": "nvv-20", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "eine Lösung finden / herbeiführen", "simple": "ein Problem lösen", "prep": "", "ar": "يتوصل إلى حل مناسب / يبتكر حلاً", "ex": "Gemeinsam werden wir sicherlich eine konstruktive Lösung finden.", "exAr": "معاً سنتوصل بكل تأكيد إلى حل بناء ومناسب."}, {"id": "nvv-21", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "einen Kompromiss schließen / eingehen", "simple": "sich einigen", "prep": "", "ar": "يعقد تسوية وحلاً وسطياً", "ex": "Um Streit zu vermeiden, schlossen beide Parteien einen Kompromiss.", "exAr": "لتفادي النزاع، عقد الطرفان تسوية وحلاً وسطاً."}, {"id": "nvv-22", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "in Betracht ziehen", "simple": "überlegen / berücksichtigen", "prep": "", "ar": "يضع في الحسبان / يدرس كخيار متاح", "ex": "Wir sollten auch kostengünstigere Alternativen in Betracht ziehen.", "exAr": "ينبغي لنا أن نضع البدائل الأقل تكلفة في الحسبان."}, {"id": "nvv-23", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "Rücksicht nehmen", "simple": "berücksichtigen / respektieren", "prep": "auf + Akkusativ", "ar": "يراعي شعور أو ظروف الآخرين", "ex": "Im Zusammenleben muss man stets Rücksicht auf die Nachbarn nehmen.", "exAr": "في العيش المشترك يتعين على المرء دوماً مراعاة الجيران."}, {"id": "nvv-24", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "in Kauf nehmen", "simple": "Nachteile akzeptieren", "prep": "", "ar": "يتقبل السلبيات أو العواقب برضى", "ex": "Wer Karriere machen will, muss oft lange Arbeitszeiten in Kauf nehmen.", "exAr": "من يريد التقدم الوظيفي عليه غالباً تقبل ساعات العمل الطويلة."}, {"id": "nvv-25", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "zur Folge haben", "simple": "bewirken / verursachen", "prep": "", "ar": "يسفر عن / ينتج عنه حتماً", "ex": "Dauerhafter Schlafmangel hat schwere gesundheitliche Schäden zur Folge.", "exAr": "قلة النوم المزمنة تسفر عن أضرار صحية جسيمة."}, {"id": "nvv-26", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "Kritik üben", "simple": "kritisieren", "prep": "an + Dativ", "ar": "يوجه نقداً صريحاً وموضوعياً", "ex": "Viele Experten übten berechtigte Kritik an der neuen Schulreform.", "exAr": "وجه العديد من الخبراء نقداً مشروعاً لإصلاح التعليم الجديد."}, {"id": "nvv-27", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "in Bedrängnis / Schwierigkeiten geraten", "simple": "Probleme bekommen", "prep": "", "ar": "يقع في مأزق أو ورطة خانقة", "ex": "Ohne finanzielle Rücklagen geraten Familien schnell in Bedrängnis.", "exAr": "دون مدخرات مالية تقع الأسر سريعاً في مأزق حرج."}, {"id": "nvv-28", "category": "problem", "catNameDe": "Probleme & Lösungen", "catNameAr": "المشكلات والحلول", "nvv": "aus dem Weg räumen", "simple": "beseitigen", "prep": "", "ar": "يزيل عقبة أو سوء تفاهم من الطريق", "ex": "Wir konnten alle Unstimmigkeiten in einem offenen Gespräch aus dem Weg räumen.", "exAr": "تمكنا من إزالة كافة الخلافات خلال حوار صريح ومفتوح."}, {"id": "nvv-29", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "eine Vereinbarung / Abmachung treffen", "simple": "vereinbaren", "prep": "", "ar": "يبرم اتفاقاً أو معاهدة عمل", "ex": "Wir haben die verbindliche Vereinbarung getroffen, uns die Kosten zu teilen.", "exAr": "أبرمنا اتفاقاً ملزماً بتقاسم التكاليف مناصفة."}, {"id": "nvv-30", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "Vorbereitungen treffen", "simple": "vorbereiten", "prep": "für + Akkusativ", "ar": "يتخذ الاستعدادات والتجهيزات اللازمة", "ex": "Für die Firmenfeier müssen wir rechtzeitig alle Vorbereitungen treffen.", "exAr": "يتعين علينا اتخاذ كافة التجهيزات في الوقت المناسب لحفل الشركة."}, {"id": "nvv-31", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "Absprachen treffen", "simple": "sich absprechen", "prep": "mit + Dativ", "ar": "ينسق ويتفق مسبقاً مع الطرف الآخر", "ex": "Ich treffe heute die nötigen Absprachen mit dem Catering-Service.", "exAr": "سأنسق اليوم الترتيبات اللازمة مع شركة تقديم الطعام."}, {"id": "nvv-32", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "zur Verfügung stehen / stellen", "simple": "vorhanden sein / anbieten", "prep": "", "ar": "يكون متاحاً رهن الإشارة / يضع شيئاً تحت التصرف", "ex": "Der Konferenzraum steht uns den ganzen Nachmittag zur Verfügung.", "exAr": "قاعة المؤتمرات متاحة تحت تصرفنا طوال فترة بعد الزوال."}, {"id": "nvv-33", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "in Verbindung treten / sich setzen", "simple": "kontaktieren", "prep": "mit + Dativ", "ar": "يتواصل ويتصل بجهة معينة", "ex": "Ich werde mich morgen früh telefonisch mit dem Vermieter in Verbindung setzen.", "exAr": "سأتواصل هاتفياً مع المؤجر صباح الغد."}, {"id": "nvv-34", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "Verantwortung übernehmen / tragen", "simple": "verantwortlich sein", "prep": "für + Akkusativ", "ar": "يتحمل كامل المسؤولية عن مهمة ما", "ex": "Ich übernehme gerne die Verantwortung für die Buchung der Tickets.", "exAr": "يسعدني جداً تحمل مسؤولية حجز التذاكر."}, {"id": "nvv-35", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "einen Beitrag leisten", "simple": "beitragen", "prep": "zu + Dativ", "ar": "يقدم مساهمة فعالة في إنجاح شيء", "ex": "Jeder Teilnehmer sollte einen aktiven Beitrag zum Gelingen leisten.", "exAr": "ينبغي لكل مشارك أن يقدم مساهمة فعالة في تحقيق النجاح."}, {"id": "nvv-36", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "Hilfe leisten", "simple": "helfen", "prep": "bei + Dativ", "ar": "يقدم يد العون والمساعدة", "ex": "Wir sollten den neuen Nachbarn beim Umzug Hilfe leisten.", "exAr": "علينا تقديم يد العون للجيران الجدد أثناء الانتقال."}, {"id": "nvv-37", "category": "plan", "catNameDe": "Planung & Kooperation", "catNameAr": "التخطيط والتعاون", "nvv": "den Auftrag erteilen", "simple": "beauftragen", "prep": "", "ar": "يكلف رسمياً بمهمة أو يمنح عقداً", "ex": "Die Schulleitung erteilte der Druckerei den Auftrag für die Flyer.", "exAr": "كلفت إدارة المدرسة المطبعة بطباعة المنشورات."}, {"id": "nvv-38", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "eine Rolle spielen", "simple": "wichtig sein", "prep": "bei + Dativ", "ar": "يلعب دوراً رئيسياً ومؤثراً", "ex": "Das Budget spielt bei unserer Planung eine ganz entscheidende Rolle.", "exAr": "تلعب الميزانية دوراً فاصلاً ومحورياً في تخطيطنا."}, {"id": "nvv-39", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "Einfluss ausüben / nehmen", "simple": "beeinflussen", "prep": "auf + Akkusativ", "ar": "يمارس نفوذاً أو تأثيراً مباشراً على", "ex": "Die sozialen Medien üben großen Einfluss auf Jugendliche aus.", "exAr": "تمارس وسائل التواصل الاجتماعي تأثيراً بالغاً على فئة الشباب."}, {"id": "nvv-40", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "von großer Bedeutung sein", "simple": "sehr wichtig sein", "prep": "für + Akkusativ", "ar": "يكتسي أهمية عظمى وشأناً كبيراً", "ex": "Lebenslanges Lernen ist von größter Bedeutung für den beruflichen Erfolg.", "exAr": "التعلم مدى الحياة يكتسي أهمية عظمى للنجاح الوظيفي."}, {"id": "nvv-41", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "Aufmerksamkeit schenken / erregen", "simple": "beachten / auffallen", "prep": "Dativ", "ar": "يولي اهتماماً بالغاً / يلفت الأنظار", "ex": "Man sollte diesem gesellschaftlichen Phänomen mehr Aufmerksamkeit schenken.", "exAr": "ينبغي للمرء أن يولي اهتماماً أكبر لهذه الظاهرة المجتمعية."}, {"id": "nvv-42", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "Interesse wecken", "simple": "interessieren", "prep": "für + Akkusativ", "ar": "يثير الفضول والاهتمام والشغف", "ex": "Das interaktive Museum weckt bei Kindern großes Interesse an Naturwissenschaften.", "exAr": "يثير المتحف التفاعلي اهتماماً وشغفاً واسعاً بالعلوم لدى الأطفال."}, {"id": "nvv-43", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "in Anspruch nehmen", "simple": "beanspruchen / nutzen", "prep": "", "ar": "يستغل خدمة أو يستغرق وقتاً طويلاً", "ex": "Dieses anspruchsvolle Projekt wird mehrere Monate in Anspruch nehmen.", "exAr": "سيستغرق هذا المشروع المتقدم عدة أشهر من العمل."}, {"id": "nvv-44", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "in Erstaunen versetzen", "simple": "überraschen", "prep": "", "ar": "يثير الدهشة والانبهار الشديد", "ex": "Die rasante Entwicklung der KI versetzt selbst Fachleute in Erstaunen.", "exAr": "التطور الخاطف للذكاء الاصطناعي يثير دهشة المتخصصين أنفسهم."}, {"id": "nvv-45", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "zur Ruhe kommen", "simple": "sich entspannen", "prep": "", "ar": "ينعم بالهدوء والراحة النفسية", "ex": "Am Wochenende brauche ich etwas Zeit, um zur Ruhe zu kommen.", "exAr": "في نهاية الأسبوع أحتاج لبعض الوقت لأنعم بالهدوء والراحة."}, {"id": "nvv-46", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "Hoffnung schöpfen", "simple": "wieder hoffen", "prep": "", "ar": "يستعيد الأمل ويتفاءل من جديد", "ex": "Durch die neuen medizinischen Behandlungen schöpfen viele Patienten neue Hoffnung.", "exAr": "من خلال العلاجات الطبية الجديدة، يستعيد الكثير من المرضى أملاً متجدداً."}, {"id": "nvv-47", "category": "impact", "catNameDe": "Bedeutung, Wirkung & Emotion", "catNameAr": "الأهمية والتأثير", "nvv": "in Wut / Zorn geraten", "simple": "wütend werden", "prep": "", "ar": "يستشيط غضباً ويفقد أعصابه", "ex": "Wegen der ständigen Verspätungen der Bahn geraten viele Pendler in Wut.", "exAr": "بسبب التأخيرات المتكررة للقطار، يستشيط العديد من المسافرين غضباً."}, {"id": "nvv-48", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "in Kenntnis setzen", "simple": "informieren", "prep": "über + Akkusativ", "ar": "يحيط علماً ويخطر رسمياً بأمر ما", "ex": "Ich werde Sie unverzüglich über jede Neuerung in Kenntnis setzen.", "exAr": "سأحيطكم علماً على الفور بأي مستجد أو تغيير."}, {"id": "nvv-49", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "zur Kenntnis nehmen", "simple": "wahrnehmen / beachten", "prep": "", "ar": "يأخذ علماً بالشيء ويقيد وصوله", "ex": "Wir haben Ihre Beschwerde mit großem Bedauern zur Kenntnis genommen.", "exAr": "أخذنا شكواكم بعين الاعتبار مع بالغ الأسف والاهتمام."}, {"id": "nvv-50", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "Bescheid wissen / geben", "simple": "informiert sein / informieren", "prep": "über + Akkusativ", "ar": "يكون على دراية تامة / يبلغ الطرف الآخر", "ex": "Sobald ich mehr erfahre, gebe ich dir sofort Bescheid.", "exAr": "بمجرد أن أعرف المزيد، سأخبرك على الفور."}, {"id": "nvv-51", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "eine Frage stellen", "simple": "fragen", "prep": "", "ar": "يطرح سؤالاً أو استفساراً", "ex": "Darf ich Ihnen zu diesem Thema eine persönliche Frage stellen?", "exAr": "هل تأذن لي بأن أطرح عليك سؤالاً شخصياً حول هذا الموضوع؟"}, {"id": "nvv-52", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "eine Antwort geben / erteilen", "simple": "antworten", "prep": "auf + Akkusativ", "ar": "يقدم جواباً وافياً وشافياً", "ex": "Auf diese heikle Frage kann ich Ihnen leider keine eindeutige Antwort geben.", "exAr": "للأسف لا أستطيع تقديم جواب قاطع على هذا السؤال الشائك."}, {"id": "nvv-53", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "einen Eindruck hinterlassen", "simple": "wirken auf", "prep": "bei + Dativ", "ar": "يترك انطباعاً إيجابياً أو عميقاً في النفس", "ex": "Ihre fundierte Präsentation hat beim Prüfungskomitee großen Eindruck hinterlassen.", "exAr": "ترك عرضك التقديمي الرصين انطباعاً ممتازاً لدى لجنة الامتحان."}, {"id": "nvv-54", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "Erfahrungen sammeln", "simple": "erfahren", "prep": "in + Dativ", "ar": "يكتسب خبرات وتجارب عملية ميدانية", "ex": "Durch mein freiwilliges Praktikum konnte ich wertvolle Erfahrungen im Krankenhaus sammeln.", "exAr": "من خلال تدريبي التطوعي استطعت اكتساب خبرات ثمينة داخل المستشفى."}, {"id": "nvv-55", "category": "info", "catNameDe": "Wissen & Information", "catNameAr": "المعرفة والمعلومات", "nvv": "zum Schluss kommen", "simple": "folgern / schließen", "prep": "", "ar": "يخلص إلى نتيجة أو خلاصة نهائية", "ex": "Aus all diesen Argumenten komme ich zu dem Schluss, dass Handys an Grundschulen verboten werden sollten.", "exAr": "من كل هذه الحجج أخلص إلى نتيجة مفادها وجوب حظر الهواتف في المدارس الابتدائية."}];
 
     let currentT2Id = 1;
     let currentT3Id = 1;
@@ -1665,36 +1708,171 @@
       });
     }
 
-    function switchRedemittelTab(target) {
-      document.querySelectorAll('.rm-tab').forEach(b => {
-        if (b.getAttribute('data-target') === target) {
-          b.className = "rm-tab px-4 py-2 rounded-xl bg-emerald-600 text-white";
-        } else {
-          b.className = "rm-tab px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border text-slate-700 dark:text-slate-300";
-        }
-      });
-      const filtered = target === 'all' ? REDEMITTEL_DATA : REDEMITTEL_DATA.filter(r => r.teil === target);
-      renderRedemittelList(filtered);
+    // ================= ENHANCED CATEGORIZED REDEMITTEL SYSTEM =================
+    let currentRmCategory = 'all';
+    let currentRmSubcat = 'all';
+
+    function initRedemittelUI() {
+      // Render Category Buttons
+      const btnContainer = document.getElementById('rmCategoryButtons');
+      btnContainer.innerHTML = REDEMITTEL_CATEGORIES.map(cat => {
+        const count = cat.id === 'all' ? REDEMITTEL_DATA.length : REDEMITTEL_DATA.filter(r => r.category === cat.id).length;
+        const activeClass = cat.id === currentRmCategory ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+        return `
+          <button onclick="setRedemittelCategory('${cat.id}')" id="rm-cat-btn-${cat.id}" class="rm-cat-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 ${activeClass}">
+            <span>${cat.nameDe}</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded-full ${cat.id === currentRmCategory ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'} font-extrabold">${count}</span>
+          </button>
+        `;
+      }).join('');
+
+      renderRedemittelSubcats();
+      filterRedemittel();
     }
 
-    function renderRedemittelList(list = REDEMITTEL_DATA) {
+    function setRedemittelCategory(catId) {
+      currentRmCategory = catId;
+      currentRmSubcat = 'all';
+
+      document.querySelectorAll('.rm-cat-btn').forEach(btn => {
+        btn.className = "rm-cat-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+      });
+      const activeBtn = document.getElementById(`rm-cat-btn-${catId}`);
+      if (activeBtn) {
+        activeBtn.className = "rm-cat-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 bg-emerald-600 text-white shadow-md shadow-emerald-600/20";
+      }
+
+      renderRedemittelSubcats();
+      filterRedemittel();
+    }
+
+    function renderRedemittelSubcats() {
+      const subContainer = document.getElementById('rmSubcatContainer');
+      const filteredForSub = currentRmCategory === 'all' ? REDEMITTEL_DATA : REDEMITTEL_DATA.filter(r => r.category === currentRmCategory);
+      
+      const subcats = Array.from(new Set(filteredForSub.map(r => r.subcat)));
+      
+      if (subcats.length <= 1) {
+        subContainer.classList.add('hidden');
+        return;
+      }
+      subContainer.classList.remove('hidden');
+
+      let html = `
+        <button onclick="setRedemittelSubcat('all')" class="rm-sub-btn px-3 py-1 rounded-xl text-[11px] font-bold transition ${currentRmSubcat === 'all' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 hover:text-slate-900 border border-transparent'}">
+          الكل (Alle)
+        </button>
+      `;
+
+      subcats.forEach(sub => {
+        const item = filteredForSub.find(r => r.subcat === sub);
+        const subAr = item ? item.subcatAr : '';
+        const isAct = currentRmSubcat === sub;
+        html += `
+          <button onclick="setRedemittelSubcat('${sub}')" class="rm-sub-btn px-3 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1 ${isAct ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 hover:text-slate-900 border border-transparent'}">
+            <span>${sub}</span>
+            <span class="ar text-[10px] text-amber-600 dark:text-amber-400">(${subAr})</span>
+          </button>
+        `;
+      });
+      subContainer.innerHTML = html;
+    }
+
+    function setRedemittelSubcat(sub) {
+      currentRmSubcat = sub;
+      renderRedemittelSubcats();
+      filterRedemittel();
+    }
+
+    function filterRedemittel() {
+      const search = (document.getElementById('rmSearchInput').value || '').toLowerCase().trim();
+      let list = REDEMITTEL_DATA;
+
+      if (currentRmCategory !== 'all') {
+        list = list.filter(r => r.category === currentRmCategory);
+      }
+      if (currentRmSubcat !== 'all') {
+        list = list.filter(r => r.subcat === currentRmSubcat);
+      }
+      if (search) {
+        list = list.filter(r => 
+          r.title.toLowerCase().includes(search) ||
+          r.titleAr.includes(search) ||
+          r.subcat.toLowerCase().includes(search) ||
+          r.subcatAr.includes(search) ||
+          r.ar.includes(search) ||
+          r.phrases.some(p => p.toLowerCase().includes(search))
+        );
+      }
+
+      document.getElementById('rmResultsCount').innerText = `تم العثور على ${list.length} موضوع عبارات امتحانية (${list.reduce((acc, cur) => acc + cur.phrases.length, 0)} جملة نموذجية)`;
+      renderRedemittelList(list);
+    }
+
+    function renderRedemittelList(list) {
       const container = document.getElementById('redemittelList');
       container.innerHTML = '';
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <i data-lucide="help-circle" class="w-12 h-12 mx-auto mb-3 text-slate-300"></i>
+            <p class="text-sm font-bold">لم يتم العثور على عبارات مطابقة لبحثك.</p>
+            <button onclick="document.getElementById('rmSearchInput').value=''; setRedemittelCategory('all');" class="mt-3 text-xs text-emerald-600 hover:underline font-bold">إعادة تعيين الفلتر</button>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
       list.forEach(r => {
         const card = document.createElement('div');
-        card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm hover:border-emerald-500 transition-all";
+        card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm hover:border-emerald-500/80 transition-all flex flex-col justify-between";
         card.innerHTML = `
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 border border-emerald-200 dark:border-emerald-800/60 uppercase">${r.teil.toUpperCase()}</span>
-            <button onclick="speakGerman('${r.de.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-emerald-600 no-print">
-              <i data-lucide="volume-2" class="w-4 h-4"></i>
-            </button>
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 uppercase">
+                  ${r.catNameDe}
+                </span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/40">
+                  ${r.subcat}
+                </span>
+              </div>
+              <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400 ar">${r.subcatAr}</span>
+            </div>
+
+            <h4 class="font-extrabold text-base text-slate-900 dark:text-white mb-0.5">${r.title}</h4>
+            <p class="text-xs font-bold text-slate-500 ar mb-3">${r.titleAr}</p>
+
+            <!-- Phrases Box -->
+            <div class="space-y-2 mb-3">
+              ${r.phrases.map((phrase, pIdx) => `
+                <div class="group p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 hover:border-emerald-200 transition text-xs flex items-start justify-between gap-2">
+                  <p class="font-bold text-slate-800 dark:text-slate-100 leading-relaxed">${phrase}</p>
+                  <div class="flex items-center gap-1 shrink-0 no-print">
+                    <button onclick="speakGerman('${phrase.replace(/'/g, "\\'")}')" class="p-1 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 transition" title="استمع للنطق">
+                      <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="copyToClipboard('${phrase.replace(/'/g, "\\'")}', this)" class="p-1 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 transition" title="نسخ الجملة">
+                      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Meaning in Arabic -->
+            <div class="p-3 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/30 text-xs text-amber-900 dark:text-amber-200 ar mb-3">
+              <span class="font-bold block text-[11px] text-amber-700 dark:text-amber-300 mb-0.5">المعنى والاستخدام بالعربية:</span>
+              ${r.ar}
+            </div>
           </div>
-          <h4 class="font-extrabold text-sm text-slate-900 dark:text-white mb-0.5">${r.title}</h4>
-          <p class="text-xs font-bold text-amber-600 dark:text-amber-400 ar mb-2">${r.titleAr}</p>
-          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 text-xs">
-            <p class="font-bold text-slate-800 dark:text-slate-100 mb-1.5">${r.de}</p>
-            <p class="text-slate-600 dark:text-slate-400 ar">${r.ar}</p>
+
+          <!-- Examiner Tip -->
+          <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-start gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+            <span class="text-emerald-600 font-extrabold shrink-0">💡 نصيحة الممتحن:</span>
+            <span class="ar">${r.tip}</span>
           </div>
         `;
         container.appendChild(card);
@@ -1702,39 +1880,199 @@
       lucide.createIcons();
     }
 
-    function renderNVV() {
-      const container = document.getElementById('nvvGrid');
+    // ================= ENHANCED CATEGORIZED NVV TRAINER SYSTEM =================
+    let currentNvvCategory = 'all';
+    let currentNvvMode = 'cards'; // 'cards' or 'table'
+
+    function initNVVUI() {
+      // Render Category Buttons with counts
+      const btnContainer = document.getElementById('nvvCategoryButtons');
+      btnContainer.innerHTML = NVV_CATEGORIES.map(cat => {
+        const count = cat.id === 'all' ? NVV_DATA.length : NVV_DATA.filter(n => n.category === cat.id).length;
+        const activeClass = cat.id === currentNvvCategory ? "bg-purple-600 text-white shadow-md shadow-purple-600/20" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+        return `
+          <button onclick="setNvvCategory('${cat.id}')" id="nvv-cat-btn-${cat.id}" class="nvv-cat-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 ${activeClass}">
+            <span>${cat.nameDe}</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded-full ${cat.id === currentNvvCategory ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'} font-extrabold">${count}</span>
+          </button>
+        `;
+      }).join('');
+
+      filterNVV();
+    }
+
+    function setNvvCategory(catId) {
+      currentNvvCategory = catId;
+      document.querySelectorAll('.nvv-cat-btn').forEach(btn => {
+        btn.className = "nvv-cat-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+      });
+      const activeBtn = document.getElementById(`nvv-cat-btn-${catId}`);
+      if (activeBtn) {
+        activeBtn.className = "nvv-cat-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 bg-purple-600 text-white shadow-md shadow-purple-600/20";
+      }
+      filterNVV();
+    }
+
+    function setNvvViewMode(mode) {
+      currentNvvMode = mode;
+      const btnCard = document.getElementById('nvvBtnModeCard');
+      const btnTable = document.getElementById('nvvBtnModeTable');
+      const cardsCont = document.getElementById('nvvCardsContainer');
+      const tableCont = document.getElementById('nvvTableContainer');
+
+      if (mode === 'cards') {
+        btnCard.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-purple-600 shadow-sm flex items-center gap-1.5 transition";
+        btnTable.className = "px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-purple-600 flex items-center gap-1.5 transition";
+        cardsCont.classList.remove('hidden');
+        tableCont.classList.add('hidden');
+      } else {
+        btnTable.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-purple-600 shadow-sm flex items-center gap-1.5 transition";
+        btnCard.className = "px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-purple-600 flex items-center gap-1.5 transition";
+        tableCont.classList.remove('hidden');
+        cardsCont.classList.add('hidden');
+      }
+    }
+
+    function filterNVV() {
+      const search = (document.getElementById('nvvSearchInput').value || '').toLowerCase().trim();
+      let list = NVV_DATA;
+
+      if (currentNvvCategory !== 'all') {
+        list = list.filter(n => n.category === currentNvvCategory);
+      }
+      if (search) {
+        list = list.filter(n => 
+          n.nvv.toLowerCase().includes(search) ||
+          n.simple.toLowerCase().includes(search) ||
+          n.ar.includes(search) ||
+          n.ex.toLowerCase().includes(search) ||
+          n.exAr.includes(search)
+        );
+      }
+
+      document.getElementById('nvvResultsCount').innerText = `عرض ${list.length} متلازمة لفظية (NVV) معتمدة لـ telc B2/C1`;
+      renderNVVCards(list);
+      renderNVVTable(list);
+    }
+
+    function renderNVVCards(list) {
+      const container = document.getElementById('nvvCardsContainer');
       container.innerHTML = '';
-      NVV_DATA.forEach(n => {
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <i data-lucide="help-circle" class="w-12 h-12 mx-auto mb-3 text-slate-300"></i>
+            <p class="text-sm font-bold">لم يتم العثور على متلازمات مطابقة لبحثك.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      list.forEach(n => {
         const card = document.createElement('div');
-        card.className = "perspective h-52 cursor-pointer group";
+        card.className = "perspective h-64 cursor-pointer group";
         card.onclick = () => card.querySelector('.transform-style-3d').classList.toggle('rotate-y-180');
         card.innerHTML = `
           <div class="transform-style-3d relative w-full h-full transition-transform duration-500">
-            <div class="backface-hidden absolute inset-0 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-3xl p-6 flex flex-col justify-between shadow-sm group-hover:border-purple-500">
+            <!-- Front Face -->
+            <div class="backface-hidden absolute inset-0 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-3xl p-6 flex flex-col justify-between shadow-sm group-hover:border-purple-500 transition">
               <div>
-                <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950 text-purple-600 border border-purple-200 dark:border-purple-800/60 uppercase">Nomen-Verb-Verbindung</span>
-                <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-3">${n.nvv}</h3>
+                <div class="flex items-center justify-between gap-1 mb-2">
+                  <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950 text-purple-600 border border-purple-200 dark:border-purple-800/60 uppercase">
+                    ${n.catNameDe}
+                  </span>
+                  ${n.prep ? `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-400 border border-amber-200">${n.prep}</span>` : ''}
+                </div>
+                <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-2 leading-snug">${n.nvv}</h3>
+                <p class="text-xs text-purple-600 dark:text-purple-400 font-bold mt-1">المعنى البسيط: = ${n.simple}</p>
               </div>
-              <div class="flex items-center justify-between text-xs text-slate-400">
-                <span>انقر لقلب البطاقة</span>
-                <i data-lucide="rotate-cw" class="w-4 h-4 text-purple-500"></i>
+
+              <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span class="text-[11px] font-bold text-amber-600 ar">${n.ar}</span>
+                <span class="flex items-center gap-1 text-[10px] text-purple-600 font-bold">
+                  <span>اقلب للمثال</span>
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-purple-500"></i>
+                </span>
               </div>
             </div>
-            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-purple-600 dark:bg-purple-900 text-white rounded-3xl p-6 flex flex-col justify-between shadow-xl">
+
+            <!-- Back Face -->
+            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-purple-700 to-indigo-900 text-white rounded-3xl p-5 flex flex-col justify-between shadow-xl">
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-purple-200">المعنى والمثال</span>
-                <p class="text-sm font-extrabold mt-1 text-white">${n.meanDe}</p>
-                <p class="text-xs font-bold text-amber-300 ar mt-1 mb-2">${n.meanAr}</p>
-                <p class="text-xs text-purple-100 bg-purple-700/60 dark:bg-purple-950/60 p-2.5 rounded-xl border border-purple-400/30">"${n.ex}"</p>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-purple-200">${n.nvv}</span>
+                  <button onclick="event.stopPropagation(); speakGerman('${n.ex.replace(/'/g, "\\'")}')" class="p-1 rounded-lg text-purple-200 hover:text-white hover:bg-white/10 transition" title="استمع للمثال">
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <p class="text-xs font-bold text-amber-300 ar mb-2">${n.ar}</p>
+                <div class="bg-black/25 rounded-2xl p-3 border border-white/10 text-xs">
+                  <p class="font-bold text-white mb-1 leading-relaxed">"${n.ex}"</p>
+                  <p class="text-purple-200 ar leading-relaxed">${n.exAr}</p>
+                </div>
               </div>
-              <div class="text-[10px] text-purple-200 text-right">انقر للرجوع</div>
+              <div class="text-[10px] text-purple-300 flex items-center justify-between pt-2">
+                <span>المعنى المباشر: = ${n.simple}</span>
+                <span>انقر للرجوع</span>
+              </div>
             </div>
           </div>
         `;
         container.appendChild(card);
       });
       lucide.createIcons();
+    }
+
+    function renderNVVTable(list) {
+      const tbody = document.getElementById('nvvTableBody');
+      tbody.innerHTML = list.map(n => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+          <td class="p-3.5">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950 text-purple-600 border border-purple-200">
+              ${n.catNameDe}
+            </span>
+          </td>
+          <td class="p-3.5 font-bold text-slate-900 dark:text-white">
+            ${n.nvv}
+            ${n.prep ? `<span class="block text-[10px] text-amber-600 font-extrabold mt-0.5">${n.prep}</span>` : ''}
+          </td>
+          <td class="p-3.5 text-purple-600 dark:text-purple-400 font-bold">${n.simple}</td>
+          <td class="p-3.5 ar text-right font-bold text-slate-800 dark:text-slate-200">${n.ar}</td>
+          <td class="p-3.5 max-w-xs">
+            <span class="block font-bold text-slate-800 dark:text-slate-200 mb-0.5">${n.ex}</span>
+            <span class="block text-slate-500 ar text-[11px]">${n.exAr}</span>
+          </td>
+          <td class="p-3.5 text-center no-print">
+            <div class="flex items-center justify-center gap-1">
+              <button onclick="speakGerman('${n.ex.replace(/'/g, "\\'")}')" class="p-1.5 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="استمع">
+                <i data-lucide="volume-2" class="w-4 h-4"></i>
+              </button>
+              <button onclick="copyToClipboard('${n.nvv.replace(/'/g, "\\'")}', this)" class="p-1.5 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="نسخ">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // ================= CLIPBOARD COPY TOAST =================
+    function copyToClipboard(text, btnElem) {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(text).then(() => {
+        if (btnElem) {
+          const orig = btnElem.innerHTML;
+          btnElem.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>`;
+          lucide.createIcons();
+          setTimeout(() => {
+            btnElem.innerHTML = orig;
+            lucide.createIcons();
+          }, 1500);
+        }
+      });
     }
 
     // ================= INITIALIZATION & HASH ROUTER =================
@@ -1749,8 +2087,8 @@
       populateJumpT3Select();
 
       renderTeil1();
-      renderRedemittelList();
-      renderNVV();
+      initRedemittelUI();
+      initNVVUI();
       recalcTotalScore();
       lucide.createIcons();
 
